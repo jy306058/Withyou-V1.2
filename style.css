@@ -1149,6 +1149,18 @@ img {
     margin-bottom: 8px;
 }
 
+/* Settings Actions Box */
+.settings__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+#settings-save {
+    font-size: 1.1rem;
+    min-width: 200px;
+}
+
 .switch {
     position: relative;
     display: inline-block;
@@ -1354,18 +1366,116 @@ input:checked + .slider:before {
     padding: 16px 40px;
 }
 
-/* Finish Modal specific */
-.finish__icon {
-    font-size: 4rem;
-    margin-bottom: 20px;
-    text-align: center;
+/* Finish Modal Avatar */
+.finish__avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    border: 4px solid var(--accent-color);
+    background-color: var(--bg-color);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.finish__message {
-    font-size: 1.2rem;
+.finish__avatar-wrapper span {
+    font-size: 0.9rem;
+    color: var(--text-hint);
     font-weight: 600;
+    position: absolute;
+    z-index: 1;
+}
+
+.finish__avatar-frame {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; /* Sits above the placeholder text */
+}
+
+.finish__avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: var(--surface-color); /* Covers text when src is set but transparent */
+}
+
+/* Finish Modal Text */
+.finish__title {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.finish__random-message {
+    font-size: 1.4rem;
+    color: var(--text-primary);
     margin-bottom: 30px;
     text-align: center;
+    word-break: keep-all;
+}
+
+.finish__random-message strong {
+    font-weight: 800;
+}
+
+/* Confetti Animation - Topmost layer on whole page */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999; /* Above all modals and content */
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    top: -20px; /* Start slightly off-screen at the top */
+    opacity: 0;
+}
+
+.modal--finish.modal--active ~ .confetti-container .confetti {
+    animation: gravityConfetti 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes gravityConfetti {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(0deg);
+    }
+    15% {
+        opacity: 1;
+        /* Initial fast burst trajectory */
+        transform: translate(var(--tx1), var(--ty1)) rotate(var(--rot1));
+    }
+    40% {
+        /* Start slowing down and beginning to fall */
+        transform: translate(var(--tx2), var(--ty2)) rotate(var(--rot2));
+    }
+    100% {
+        opacity: 0;
+        /* Slow gravity fall to the bottom */
+        transform: translate(var(--tx3), var(--ty3)) rotate(var(--rot3));
+    }
+}
+
+#finish-modal-close {
+    display: block;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    padding: 14px 40px;
+    min-width: 160px;
 }
 
 

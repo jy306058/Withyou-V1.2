@@ -240,6 +240,7 @@
                                 <label class="interval__option"><input type="radio" name="sound-end" value="박수"> 박수</label>
                                 <label class="interval__option"><input type="radio" name="sound-end" value="트럼펫"> 트럼펫</label>
                                 <label class="interval__option"><input type="radio" name="sound-end" value="실로폰"> 실로폰</label>
+                                <label class="interval__option"><input type="radio" name="sound-end" value="IRIS OUT"> IRIS OUT</label>
                                 <label class="interval__option"><input type="radio" name="sound-end" value="none"> 사운드 없음</label>
                             </div>
                         </div>
@@ -326,13 +327,21 @@
 
         <!-- Timer Finish Modal -->
         <div id="finish-modal" class="modal modal--finish">
-            <div class="modal__content">
-                <div class="finish__icon">🎉</div>
-                <p id="finish-message" class="finish__message">고생했어! 이제 나랑 푹 쉬자 💙</p>
+            <div class="modal__content" style="position: relative;">
+                <div class="finish__avatar-wrapper">
+                    <span>등록 프로필</span>
+                    <div class="finish__avatar-frame">
+                        <img id="finish-avatar-img" src="" alt="최애 프로필">
+                    </div>
+                </div>
+                <h3 class="finish__title">타이머가 종료되었습니다!</h3>
+                <p id="finish-random-message" class="finish__random-message"><strong></strong></p>
                 <button id="finish-modal-close" class="button button--primary">확인</button>
             </div>
         </div>
     </div>
+
+    <div class="confetti-container"></div>
 
     <script src="script.js"></script>
 </body>

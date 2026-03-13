@@ -139,6 +139,12 @@ function saveState() {
 
 // --- NAVIGATION & THEME ---
 window.showPage = function(pageId) {
+    // 🎵 Stop sound preview when leaving the current page
+    if (previewAudio) {
+        previewAudio.pause();
+        previewAudio.currentTime = 0;
+    }
+
     console.log('Changing page to:', pageId);
     const pages = document.querySelectorAll('.page');
     pages.forEach(p => p.classList.remove('page--active'));
@@ -356,7 +362,6 @@ function handleTimerEnd() {
 function showFinishModal() {
     playCustomSound('end');
     const profile = state.profiles[state.currentProfileIndex] || state.profiles[0];
-    const nickname = state.settings.nickname || '사용자';
     let msg = getRandomMessage(profile, 'msgEnd');
     
     if (currentMode === MODES.POMODORO) {
@@ -365,10 +370,87 @@ function showFinishModal() {
         msg = '타이머가 종료되었습니다! 🔔';
     }
 
-    document.getElementById('finish-message').textContent = formatMessage(nickname, msg);
+    // Set Avatar image
+    const defaultImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='transparent'/%3E%3C/svg%3E";
+    document.getElementById('finish-avatar-img').src = profile.image || defaultImg;
+
+    // Set Random Message without formatting with nickname
+    document.querySelector('#finish-random-message strong').textContent = msg;
+
     document.getElementById('modal-overlay').style.display = 'grid';
     document.getElementById('profile-modal').style.display = 'none';
-    document.getElementById('finish-modal').style.display = 'block';
+    
+    const finishModal = document.getElementById('finish-modal');
+    finishModal.style.display = 'block';
+    
+    // Trigger Remount of Animation
+    finishModal.classList.remove('modal--active');
+    void finishModal.offsetWidth; // trigger reflow
+    finishModal.classList.add('modal--active');
+    
+    renderConfetti();
+}
+
+function renderConfetti() {
+    const container = document.querySelector('.confetti-container');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    const colors = ['#ff5252', '#448aff', '#ffd740', '#b388ff'];
+    const particleCount = 60; // Slightly more for full screen
+
+    for (let i = 0; i < particleCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        
+        const isLeft = i < particleCount / 2;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Randomization
+        const size = Math.random() * 8 + 6;
+        const isCircle = Math.random() > 0.5;
+        const delay = Math.random() * 0.4 + 's';
+        
+        // Base positioning
+        confetti.style.left = isLeft ? '-20px' : 'calc(100% + 20px)';
+        confetti.style.top = (Math.random() * 50) + 'px'; // Start near the top
+        confetti.style.width = size + 'px';
+        confetti.style.height = isCircle ? size + 'px' : (Math.random() * 10 + 10) + 'px';
+        confetti.style.backgroundColor = color;
+        confetti.style.borderRadius = isCircle ? '50%' : '2px';
+        confetti.style.animationDelay = delay;
+
+        // Trajectories using CSS Variables
+        // tx1/ty1: Fast Burst (V-shape inward)
+        const spreadX = Math.random() * 200 + 100;
+        const tx1 = isLeft ? spreadX : -spreadX;
+        const ty1 = Math.random() * 150 + 50; // Shoot downward slightly or inward
+        
+        // tx2/ty2: Arc peak / slowing down
+        const tx2 = tx1 * 1.5;
+        const ty2 = ty1 + (Math.random() * 100 + 200);
+        
+        // tx3/ty3: Gravity fall to screen bottom
+        const tx3 = tx2 + (isLeft ? 50 : -50);
+        const ty3 = ty2 + 800;
+
+        // Rotations
+        const r1 = (Math.random() * 360) + 'deg';
+        const r2 = (Math.random() * 720) + 'deg';
+        const r3 = (Math.random() * 1080) + 'deg';
+
+        confetti.style.setProperty('--tx1', `${tx1}px`);
+        confetti.style.setProperty('--ty1', `${ty1}px`);
+        confetti.style.setProperty('--tx2', `${tx2}px`);
+        confetti.style.setProperty('--ty2', `${ty2}px`);
+        confetti.style.setProperty('--tx3', `${tx3}px`);
+        confetti.style.setProperty('--ty3', `${ty3}px`);
+        confetti.style.setProperty('--rot1', r1);
+        confetti.style.setProperty('--rot2', r2);
+        confetti.style.setProperty('--rot3', r3);
+        
+        container.appendChild(confetti);
+    }
 }
 
 // 🔥 최애 프로필 상단 말풍선 리마인드 모달 표시 (자동 닫힘 로직 포함)
@@ -382,7 +464,7 @@ function showRemindModal() {
     if (validRemindMsgs.length > 0) {
         msg = validRemindMsgs[Math.floor(Math.random() * validRemindMsgs.length)];
     } else {
-        msg = '우리 같이 힘내볼까요? 💙'; // 기본 메시지
+        msg = '우리 같이 힘내볼까요?'; // 기본 메시지
     }
 
     document.getElementById('remind-bubble-text').textContent = `🗨️ ${nickname} : ${msg}`;
