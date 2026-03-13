@@ -901,7 +901,6 @@ function setupEventListeners() {
         saveState();
         renderAll();
         alert('설정이 저장되었습니다.');
-        showPage('page-timer');
     };
 
     document.getElementById('settings-remind-toggle').onchange = (e) => {
