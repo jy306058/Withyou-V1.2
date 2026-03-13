@@ -148,6 +148,8 @@ function showOnboarding() {
     const welcomeMsg = document.getElementById('onboarding-welcome-msg');
     
     const charImg = document.getElementById('onboarding-character-img');
+    const charFile = document.getElementById('onboarding-character-file');
+    const charNameInput = document.getElementById('onboarding-character-name');
     const stepBridge = document.getElementById('onboarding-step-bridge');
     const stepQuiz = document.getElementById('onboarding-step-quiz');
     const stepResult = document.getElementById('onboarding-step-result');
