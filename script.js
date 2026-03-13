@@ -803,7 +803,6 @@ function renderChecklist() {
         Study: '✏️',
         Reading: '📖',
         Exercise: '🏋️',
-        Rest: '☕',
         Game: '🕹️',
         Etc: '☑️'
     };
