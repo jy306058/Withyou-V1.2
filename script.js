@@ -208,8 +208,10 @@ function showOnboarding() {
 
         // 3. 1.5초 후 최애 설정 단계로 전환
         setTimeout(() => {
+            console.log("Onboarding: Transitioning to Step 2 (Character Setup)");
             stepWelcome.style.display = 'none';
             step2.style.display = 'flex';
+            step2.style.animation = 'fadeIn 0.5s forwards';
         }, 1500);
     };
 
