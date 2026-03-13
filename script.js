@@ -43,6 +43,12 @@ function playCustomSound(type) {
     if (soundName && soundName !== 'none') {
         const audio = new Audio(`sound/${soundName}.mp3`);
         audio.play().catch(e => console.warn("Audio play failed:", e));
+
+        // 🔥 IRIS OUT 적용 시 벨소리도 함께 재생 (미리듣기는 제외됨)
+        if (soundName === 'IRIS OUT') {
+            const bell = new Audio('sound/벨.mp3');
+            bell.play().catch(e => console.warn("Bell audio play failed:", e));
+        }
     }
 }
 
