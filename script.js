@@ -795,10 +795,6 @@ function pauseEngine() {
 }
 
 function resetEngine() {
-    // 사용자가 타이머 수치 직접 입력 후 리셋이 호출되므로 딱.mp3로 변경 (사용자 요청)
-    clickAudio.currentTime = 0;
-    clickAudio.play().catch(error => console.log('Audio playback error:', error));
-
     stopEngine();
     remindCounter = 0; // 🔥 카운터 꼬임 방지
     
@@ -1063,7 +1059,11 @@ function setupEventListeners() {
     
     document.getElementById('timer-start').onclick = startEngine;
     document.getElementById('timer-pause').onclick = pauseEngine;
-    document.getElementById('timer-reset').onclick = resetEngine;
+    document.getElementById('timer-reset').onclick = () => {
+        resetAudio.currentTime = 0;
+        resetAudio.play().catch(error => console.log('Reset sound play failed:', error));
+        resetEngine();
+    };
     document.getElementById('timer-lap').onclick = () => {
         playClickSound();
         handleLap();
@@ -1241,6 +1241,9 @@ function setupEventListeners() {
         
         timerState.seconds = totalSecs;
         timerState.initialSeconds = totalSecs;
+        
+        // 시간 직접 입력 후 확인 시에는 '딱' 소리 재생
+        playClickSound();
         resetEngine();
     };
 
