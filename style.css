@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -94,7 +94,7 @@ body {
     line-height: 1.6;
     transition: background var(--transition-base), color var(--transition-base);
     min-height: 100vh;
-    padding-top: 60px; /* For GNB */
+    padding-top: 50px; /* Reduced for tighter layout */
     display: flex;
     flex-direction: column;
 }
@@ -120,7 +120,7 @@ img {
 .app__main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px 15px; /* Reduced for tighter layout */
     flex: 1;
     width: 100%;
 }
@@ -197,8 +197,8 @@ img {
     font-size: 0.85rem;
 }
 
-#nav-profiles .gnb__icon::before { content: '👤'; }
-#nav-settings .gnb__icon::before { content: '⚙️'; }
+#nav-profiles .gnb__icon::before { content: '?뫀'; }
+#nav-settings .gnb__icon::before { content: '?숋툘'; }
 
 .gnb__icon {
     font-size: 1.1rem;
@@ -374,7 +374,7 @@ img {
     font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
     font-size: 5.5rem; /* Slightly reduced */
     font-weight: 800;
-    /* font-variant-numeric: tabular-nums; iOS 웹뷰 간격 벌어짐 방지 주석 처리 */
+    /* font-variant-numeric: tabular-nums; iOS ?밸럭 媛꾧꺽 踰뚯뼱吏?諛⑹? 二쇱꽍 泥섎━ */
     letter-spacing: -0.05em;
     color: var(--text-primary);
     line-height: 1;
@@ -420,7 +420,7 @@ img {
     padding: 0;
 }
 
-/* 모바일 최우선 반응형: 타이머 폰트 유연화 */
+/* 紐⑤컮??理쒖슦??諛섏쓳?? ??대㉧ ?고듃 ?좎뿰??*/
 @media (max-width: 480px) {
     .timer__display {
         font-size: 4rem;
@@ -693,7 +693,7 @@ img {
 }
 
 .todo__item-checkbox--checked::after {
-    content: '✅';
+    content: '??;
     font-size: 14px;
 }
 
@@ -1565,7 +1565,7 @@ input:checked + .slider:before {
 /* Mobile First: 390px min width is recommended */
 @media (max-width: 389px) {
     body {
-        width: 100%; /* min-width: 390px 대체 (스크롤 방지) */
+        width: 100%; /* min-width: 390px ?泥?(?ㅽ겕濡?諛⑹?) */
     }
 }
 /* Onboarding Overlay */
@@ -1744,7 +1744,7 @@ input:checked + .slider:before {
     animation: fadeOut 0.8s forwards;
 }
 
-/* 타이머 원형 그래프 유연화 */
+/* ??대㉧ ?먰삎 洹몃옒???좎뿰??*/
 .timer__circle-wrapper {
     width: 100%;
     max-width: 240px;
@@ -1771,4 +1771,78 @@ input:checked + .slider:before {
 
 @keyframes fadeOut {
     to { opacity: 0; visibility: hidden; }
+}
+
+/* 媛ㅻ윮??Z ?대뱶 ??珥덉냼???붾㈃(380px ?댄븯) ???諛⑹뼱 諛?誘몄꽭 議곗젙 肄붾뱶 */
+@media (max-width: 380px) {
+    /* ?덉씠?꾩썐 ????怨듦컙 ?뺣낫 */
+    #page-timer .timer__section {
+        margin-top: 25px !important;
+    }
+
+    /* 由щ쭏?몃뱶 ?앹뾽 ?꾩튂 議곗젙 (GNB 媛由?諛⑹?) */
+    .remind-bubble--active {
+        top: 85px !important;
+    }
+
+    /* 1. ??대㉧ 而⑦듃濡?踰꾪듉: 以꾨컮轅??덉슜 諛??ш린 異뺤냼 */
+    .timer__controls {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        justify-content: center !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .timer__controls .button {
+        padding: 6px 10px !important;
+        font-size: 0.8rem !important;
+        min-width: auto !important;
+        flex: 1 1 40%;
+    }
+
+    /* 2. ?꾩껜 ?곷떒 怨듬갚 諛?而⑦뀒?대꼫 ?щ갚 異뺤냼 */
+    body {
+        padding-top: 45px !important;
+    }
+    
+    .app__main {
+        padding: 10px 10px !important;
+    }
+
+    .timer__container {
+        padding: 5px 15px 15px 15px !important;
+    }
+    
+    .timer__display, .timer__input-split {
+        font-size: 3.2rem !important;
+        min-height: 60px !important;
+    }
+
+    /* 3. '< ?덉쑝濡? 踰꾪듉 諛??ㅻ뜑 理쒖쟻??*/
+    .page__back-home {
+        padding: 4px 8px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .page__header-title {
+        font-size: 1.2rem !important;
+    }
+
+    /* 4. ?щ몢 '異붽?' 踰꾪듉: 以꾨컮轅?諛⑹? 諛??ш린 怨좎젙 */
+    .checklist__add-button {
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        padding: 8px 12px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .checklist__input {
+        padding: 8px 10px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .checklist__title {
+        font-size: 1.1rem !important;
+        margin-bottom: 10px !important;
+    }
 }
