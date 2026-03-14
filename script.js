@@ -445,8 +445,10 @@ function getRandomMessage(profile, type) {
 
 function formatMessage(nickname, message) {
     if (!nickname) nickname = '사용자';
+    // 님 호칭을 항상 붙여줌
+    const nicknameWithHonorific = nickname + '님';
     const hasExclamation = message.endsWith('!');
-    const nickWithSymbol = hasExclamation ? `${nickname}!` : nickname;
+    const nickWithSymbol = hasExclamation ? `${nicknameWithHonorific}!` : nicknameWithHonorific;
     
     const formats = [
         hasExclamation ? `${nickWithSymbol} ${message}` : `${nickWithSymbol}, ${message}`, 
@@ -634,20 +636,23 @@ function handleTimerEnd() {
 function showFinishModal() {
     playCustomSound('end');
     const profile = state.profiles[state.currentProfileIndex] || state.profiles[0];
+    const nickname = state.settings.nickname || '사용자';
     let msg = getRandomMessage(profile, 'msgEnd');
     
     if (currentMode === MODES.POMODORO) {
-        if (pomodoroState.phase !== 'focus') msg = '쉬는 시간이에요! ☕';
-    } else if (currentMode === MODES.TIMER) {
-        msg = '타이머가 종료되었습니다! 🔔';
+        if (pomodoroState.phase !== 'focus') {
+            msg = '쉬는 시간이에요! ☕';
+        }
     }
 
     // Set Avatar image
     const defaultImg = "image/기본프로필.png";
     document.getElementById('finish-avatar-img').src = profile.image || defaultImg;
 
-    // Set Random Message without formatting with nickname
-    document.querySelector('#finish-random-message strong').textContent = msg;
+    // 적용된 님 호칭이 포함된 랜덤 메시지를 타이틀에 표시
+    document.getElementById('finish-title').textContent = formatMessage(nickname, msg);
+    // 아래쪽 메시지 칸은 비워두거나 보조 텍스트로 활용 가능 (현재는 공백 처리)
+    document.querySelector('#finish-random-message strong').textContent = "";
 
     document.getElementById('modal-overlay').style.display = 'grid';
     document.getElementById('profile-modal').style.display = 'none';
