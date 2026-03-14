@@ -207,21 +207,7 @@ function showOnboarding() {
         showBridgeScreen();
     };
 
-    const handleStep2Skip = () => {
-        const cName = charNameInput.value.trim();
-        if (!cName) {
-            alert('최애의 이름을 입력해 주세요!');
-            return;
-        }
-        
-        if (state.profiles && state.profiles.length > 0) {
-            state.profiles[0].name = cName;
-            // 이미지는 기본값 유지
-        }
-        
-        saveState();
-        showBridgeScreen();
-    };
+    // handleStep2Skip 제거됨 (사용자가 이름을 반드시 입력하도록 변경)
 
     const showBridgeScreen = () => {
         const charName = state.profiles[0].name || '최애';
@@ -263,9 +249,12 @@ function showOnboarding() {
 
     const handleQuizSubmit = () => {
         const val = quizInput.value.trim();
-        if (val) {
-            state.profiles[0][quizKeys[currentQuizStep]] = [val];
+        if (!val) {
+            alert('대사를 입력하거나 [이 질문 건너뛰기]를 눌러주세요!');
+            return;
         }
+        
+        state.profiles[0][quizKeys[currentQuizStep]] = [val];
         
         currentQuizStep++;
         if (currentQuizStep >= quizQuestions.length) {
@@ -276,6 +265,7 @@ function showOnboarding() {
     };
     
     const handleQuizSkip = () => {
+        // 대사 입력 없이 다음 단계로 진행 (빈 배열 유지)
         currentQuizStep++;
         if (currentQuizStep >= quizQuestions.length) {
             showResultScreen();
@@ -319,7 +309,7 @@ function showOnboarding() {
         // 2. 환영 메시지로 깔끔하게 전환
         step1.style.display = 'none';
         stepWelcome.style.display = 'flex';
-        welcomeMsg.textContent = `환영합니다, ${nickname}!`;
+        welcomeMsg.textContent = `환영합니다, ${nickname}님!`;
 
         // 3. 무조건 1.5초 후 실행되도록 보장된 타임아웃
         setTimeout(() => {
@@ -351,8 +341,7 @@ function showOnboarding() {
         }
     };
     
-    // 건너뛰기 버튼 -> 브릿지로 이동
-    document.getElementById('onboarding-skip').onclick = handleStep2Skip;
+    // 건너뛰기 버튼 제거됨 (handleStep2Skip 삭제)
 
     // 온보딩 후반 로직 바인딩
     document.getElementById('onboarding-bridge-submit').onclick = showQuizStep;
@@ -374,6 +363,16 @@ function loadState() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
         state = JSON.parse(saved);
+        
+        // --- Legacy Data Migration: Remove "지윤" data ---
+        if (state.settings && state.settings.nickname === '지윤') {
+            state.settings.nickname = '';
+        }
+        if (state.profiles) {
+            state.profiles.forEach(p => {
+                if (p.name === '지윤') p.name = '';
+            });
+        }
     }
 }
 
