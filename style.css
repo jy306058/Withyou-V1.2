@@ -180,34 +180,18 @@ img {
 .gnb__button {
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    justify-content: center;
+    color: var(--text-primary); /* High contrast base color */
+    transition: color 0.2s ease;
+    padding: 8px; /* Standardized padding for touch target without fixed overflow */
 }
 
 .gnb__button:hover {
-    color: var(--accent-color);
-    transform: translateY(-1px);
+    color: var(--accent-color); /* Only color changes on hover */
 }
 
-.gnb__button span:first-child {
-    display: inline;
-    font-size: 0.85rem;
-}
-
-#nav-profiles .gnb__icon::before { content: '?뫀'; }
-#nav-settings .gnb__icon::before { content: '?숋툘'; }
-
-.gnb__icon {
-    font-size: 1.1rem;
-}
-
-@media (min-width: 768px) {
-    .gnb__button span:first-child {
-        font-size: 0.9rem;
-    }
+.gnb__button i {
+    font-size: 1.4rem;
 }
 
 /* Main Timer Page Layout */
